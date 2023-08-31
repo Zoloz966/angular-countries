@@ -7,32 +7,29 @@ import { Country } from '../../interfaces/country';
 @Component({
   selector: 'app-country-page',
   templateUrl: './country-page.component.html',
-  styles: [
-  ]
+  styles: [],
 })
 export class CountryPageComponent implements OnInit {
-
   public country?: Country;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private countriesService: CountriesService,
+    private countriesService: CountriesService
   ) {}
 
-  ngOnInit(): void {
+  //EL SWITCHMAP  REGRESA UN NUEVO OBESRVABLE, QUE CAMBIA EL SUBSCRIBE
 
+  ngOnInit(): void {
     this.activatedRoute.params
       .pipe(
-        switchMap( ({ id }) => this.countriesService.searchCountryByAlphaCode( id )),
+        switchMap(({ id }) =>
+          this.countriesService.searchCountryByAlphaCode(id)
+        )
       )
-      .subscribe( country => {
-        if ( !country ) return this.router.navigateByUrl('');
-        return this.country = country;
+      .subscribe((country) => {
+        if (!country) return this.router.navigateByUrl('');
+        return (this.country = country);
       });
   }
-
-
-
-
 }
